@@ -1,0 +1,29 @@
+{"event": "chat_latency", "friend_id": 2, "ttft_ms": null, "ttfa_ms": null, "total_ms": 2.0}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 1424.8}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1432.6, "ttfa_ms": null, "total_ms": 2759.6}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 3376.2}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 2998.2}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 3165.1}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1020.3, "ttfa_ms": 1506.0, "total_ms": 3941.8}
+{"event": "chat_interrupted", "friend_id": 3, "elapsed_ms": 2315.7, "chars_so_far": 32}
+{"event": "chat_interrupted", "friend_id": 3, "elapsed_ms": 2753.2, "chars_so_far": 35}
+{"event": "chat_interrupted", "friend_id": 3, "elapsed_ms": 2751.0, "chars_so_far": 39}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1011.1, "ttfa_ms": 1546.2, "total_ms": 4798.9}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1011.8, "ttfa_ms": 1548.1, "total_ms": 4214.0}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1083.7, "ttfa_ms": 1504.9, "total_ms": 4751.5}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 3265.3}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1011.6, "ttfa_ms": 1385.0, "total_ms": 3877.7}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 3331.5}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 3717.3}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": null, "ttfa_ms": null, "total_ms": 3201.5}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 3316.7, "ttfa_ms": 3746.0, "total_ms": 8451.0}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 3163.5, "ttfa_ms": 3600.0, "total_ms": 8588.2}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 1044.8, "ttfa_ms": 1715.1, "total_ms": 5431.0}
+{"event": "chat_latency", "friend_id": 3, "ttft_ms": 999.8, "ttfa_ms": 1544.3, "total_ms": 6450.3}
+{"event": "chat_latency", "friend_id": 4, "ttft_ms": 1084.2, "ttfa_ms": 1399.7, "total_ms": 8145.5}
+{"event": "chat_interrupted", "friend_id": 6, "elapsed_ms": 10382.2, "chars_so_far": 1}
+{"event": "chat_latency", "friend_id": 6, "ttft_ms": 1681.0, "ttfa_ms": 2378.3, "total_ms": 6079.8}
+{"event": "chat_latency", "friend_id": 6, "ttft_ms": 1105.3, "ttfa_ms": 1364.4, "total_ms": 6225.2}
+{"event": "chat_latency", "friend_id": 8, "ttft_ms": 1314.4, "ttfa_ms": 1806.1, "total_ms": 5619.6}
+{"event": "chat_latency", "friend_id": 9, "ttft_ms": 1769.1, "ttfa_ms": 2786.8, "total_ms": 6645.6}
+{"event": "chat_latency", "friend_id": 10, "ttft_ms": 1846.7, "ttfa_ms": 2144.0, "total_ms": 5323.0}

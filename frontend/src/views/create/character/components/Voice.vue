@@ -1,0 +1,32 @@
+<script setup>
+// 音色下拉选择：本地维护选中项并暴露给父组件。
+import {ref, watch} from "vue";
+
+const props = defineProps(['voices', 'curVoiceId'])
+const myVoice = ref(props.curVoiceId)
+
+watch(() => props.curVoiceId, newVal => {
+  myVoice.value = newVal
+})
+
+defineExpose({
+  myVoice,
+})
+</script>
+
+<template>
+  <fieldset class="fieldset">
+    <label class="label text-base">音色</label>
+    <select v-model="myVoice" class="select">
+      <option
+          v-for="voice in voices"
+          :id="voice.id"
+          :value="voice.id"
+      >{{ voice.name }}</option>
+    </select>
+  </fieldset>
+</template>
+
+<style scoped>
+
+</style>
