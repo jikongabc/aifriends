@@ -186,7 +186,3 @@ Comment convention: every function/class carries one concise single-line comment
 - **`VOICE_URL` errors / 500 on voice clone** — make sure `VOICE_URL` is set; the client returns `{'error': ...}` rather than crashing when it's missing or the request fails.
 - **401 loops on the frontend** — the axios interceptor refreshes via the HttpOnly `refresh_token` cookie; if it's missing/expired you'll be logged out. Check that the backend set the cookie on login (HTTPS/SameSite settings).
 - **Latency report says "no data"** — there are no `chat_latency` records yet; have at least one completed turn so `backend/logs/latency.jsonl` is populated.
-
-## License
-
-All rights reserved. This project is published for portfolio / demonstration purposes and is **not** released under an open-source license — please don't redistribute or reuse the code without permission.
