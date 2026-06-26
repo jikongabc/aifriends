@@ -10,6 +10,6 @@ def create_voice(voice_url, prefix):
             "target_model": "cosyvoice-v3-flash",
             "prefix": prefix,
             "url": voice_url,
-        }
+        },
     }
     return call_voice_api(data)

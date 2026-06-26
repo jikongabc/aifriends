@@ -11,18 +11,20 @@ class GetVoiceList(APIView):
 
     def get(self, request):
         try:
-            voices_raw = Voice.objects.order_by('id')
+            voices_raw = Voice.objects.order_by("id")
             voices = []
             for v in voices_raw:
-                voices.append({
-                    'id': v.id,
-                    'name': v.name,
-                })
-            return Response({
-                'result': 'success',
-                'voices': voices,
-            })
+                voices.append(
+                    {
+                        "id": v.id,
+                        "name": v.name,
+                    }
+                )
+            return Response(
+                {
+                    "result": "success",
+                    "voices": voices,
+                }
+            )
         except:
-            return Response({
-                'result': '系统异常，请稍后重试'
-            })
+            return Response({"result": "系统异常，请稍后重试"})

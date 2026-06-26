@@ -13,22 +13,20 @@ class UpdateCharacterView(APIView):
 
     def post(self, request):
         try:
-            character_id = request.data['character_id']
-            character = Character.objects.get(id=character_id, author__user=request.user)
-            name = request.data['name'].strip()
-            voice_id = request.data['voice_id']
-            profile = request.data['profile'].strip()[:100000]
-            photo = request.FILES.get('photo', None)
-            background_image = request.FILES.get('background_image', None)
+            character_id = request.data["character_id"]
+            character = Character.objects.get(
+                id=character_id, author__user=request.user
+            )
+            name = request.data["name"].strip()
+            voice_id = request.data["voice_id"]
+            profile = request.data["profile"].strip()[:100000]
+            photo = request.FILES.get("photo", None)
+            background_image = request.FILES.get("background_image", None)
 
             if not name:
-                return Response({
-                    'result': "名字不能为空"
-                })
+                return Response({"result": "名字不能为空"})
             if not profile:
-                return Response({
-                    'result': '角色介绍不能为空'
-                })
+                return Response({"result": "角色介绍不能为空"})
             if photo:
                 remove_old_photo(character.photo)
                 character.photo = photo
@@ -43,10 +41,10 @@ class UpdateCharacterView(APIView):
             character.profile = profile
             character.update_time = now()
             character.save()
-            return Response({
-                'result': 'success',
-            })
+            return Response(
+                {
+                    "result": "success",
+                }
+            )
         except:
-            return Response({
-                'result': '系统异常，请稍后重试'
-            })
+            return Response({"result": "系统异常，请稍后重试"})

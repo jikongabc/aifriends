@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0006_message'),
+        ("web", "0006_message"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='message',
-            name='input',
+            model_name="message",
+            name="input",
             field=models.TextField(max_length=10000),
         ),
     ]

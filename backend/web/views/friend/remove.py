@@ -11,12 +11,12 @@ class RemoveFriendView(APIView):
 
     def post(self, request):
         try:
-            friend_id = request.data['friend_id']
+            friend_id = request.data["friend_id"]
             Friend.objects.filter(id=friend_id, me__user=request.user).delete()
-            return Response({
-                'result': 'success',
-            })
+            return Response(
+                {
+                    "result": "success",
+                }
+            )
         except:
-            return Response({
-                'result': '系统异常，请稍后重试'
-            })
+            return Response({"result": "系统异常，请稍后重试"})

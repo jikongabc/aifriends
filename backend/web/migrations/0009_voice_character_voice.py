@@ -6,24 +6,40 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0008_systemprompt'),
+        ("web", "0008_systemprompt"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Voice',
+            name="Voice",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('voice_id', models.CharField(max_length=100)),
-                ('create_time', models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("voice_id", models.CharField(max_length=100)),
+                (
+                    "create_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='character',
-            name='voice',
-            field=models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.CASCADE, to='web.voice'),
+            model_name="character",
+            name="voice",
+            field=models.ForeignKey(
+                blank=True,
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="web.voice",
+            ),
         ),
     ]

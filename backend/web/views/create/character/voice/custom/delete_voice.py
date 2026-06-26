@@ -8,6 +8,6 @@ def delete_voice(voice_id):
         "input": {
             "action": "delete_voice",
             "voice_id": voice_id,
-        }
+        },
     }
     return call_voice_api(data)

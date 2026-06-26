@@ -6,24 +6,39 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0005_friend'),
+        ("web", "0005_friend"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user_message', models.TextField(max_length=500)),
-                ('input', models.TextField(max_length=500)),
-                ('output', models.TextField(max_length=500)),
-                ('input_tokens', models.IntegerField(default=0)),
-                ('output_tokens', models.IntegerField(default=0)),
-                ('total_tokens', models.IntegerField(default=0)),
-                ('create_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('friend', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='web.friend')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("user_message", models.TextField(max_length=500)),
+                ("input", models.TextField(max_length=500)),
+                ("output", models.TextField(max_length=500)),
+                ("input_tokens", models.IntegerField(default=0)),
+                ("output_tokens", models.IntegerField(default=0)),
+                ("total_tokens", models.IntegerField(default=0)),
+                (
+                    "create_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "friend",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="web.friend"
+                    ),
+                ),
             ],
         ),
     ]

@@ -5,10 +5,6 @@ from web.views.create.character.voice.custom.client import call_voice_api
 def list_voice():
     data = {
         "model": "voice-enrollment",
-        "input": {
-            "action": "list_voice",
-            "page_size": 100,
-            "page_index": 0
-        }
+        "input": {"action": "list_voice", "page_size": 100, "page_index": 0},
     }
     return call_voice_api(data)

@@ -11,30 +11,34 @@ class GetSingleCharacterView(APIView):
 
     def get(self, request):
         try:
-            character_id = request.query_params.get('character_id')
-            character = Character.objects.get(id=character_id, author__user=request.user)
+            character_id = request.query_params.get("character_id")
+            character = Character.objects.get(
+                id=character_id, author__user=request.user
+            )
 
-            voices_raw = Voice.objects.order_by('id')
+            voices_raw = Voice.objects.order_by("id")
             voices = []
             for v in voices_raw:
-                voices.append({
-                    'id': v.id,
-                    'name': v.name,
-                })
+                voices.append(
+                    {
+                        "id": v.id,
+                        "name": v.name,
+                    }
+                )
 
-            return Response({
-                'result': 'success',
-                'character': {
-                    'id': character.id,
-                    'name': character.name,
-                    'profile': character.profile,
-                    'photo': character.photo.url,
-                    'background_image': character.background_image.url,
-                    'voice_id': character.voice.id,
-                },
-                'voices': voices,
-            })
+            return Response(
+                {
+                    "result": "success",
+                    "character": {
+                        "id": character.id,
+                        "name": character.name,
+                        "profile": character.profile,
+                        "photo": character.photo.url,
+                        "background_image": character.background_image.url,
+                        "voice_id": character.voice.id,
+                    },
+                    "voices": voices,
+                }
+            )
         except:
-            return Response({
-                'result': '系统异常，请稍后重试'
-            })
+            return Response({"result": "系统异常，请稍后重试"})

@@ -8,16 +8,16 @@ from web.models.user import UserProfile
 
 # 生成角色头像的随机上传路径。
 def photo_upload_to(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f'{uuid.uuid4().hex[:10]}.{ext}'
-    return f'character/photos/{instance.author.user_id}_{filename}'
+    ext = filename.split(".")[-1]
+    filename = f"{uuid.uuid4().hex[:10]}.{ext}"
+    return f"character/photos/{instance.author.user_id}_{filename}"
 
 
 # 生成角色背景图的随机上传路径。
 def background_image_upload_to(instance, filename):
-    ext = filename.split('.')[-1]
-    filename = f'{uuid.uuid4().hex[:10]}.{ext}'
-    return f'character/background_images/{instance.author.user_id}_{filename}'
+    ext = filename.split(".")[-1]
+    filename = f"{uuid.uuid4().hex[:10]}.{ext}"
+    return f"character/background_images/{instance.author.user_id}_{filename}"
 
 
 # 音色：保存复刻得到的 voice_id，供 TTS 使用。
@@ -35,7 +35,9 @@ class Character(models.Model):
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to=photo_upload_to)
-    voice = models.ForeignKey(Voice, default=None, on_delete=models.CASCADE, blank=True, null=True)
+    voice = models.ForeignKey(
+        Voice, default=None, on_delete=models.CASCADE, blank=True, null=True
+    )
     profile = models.TextField(max_length=100000)
     background_image = models.ImageField(upload_to=background_image_upload_to)
     create_time = models.DateTimeField(default=now)

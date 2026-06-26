@@ -7,23 +7,50 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0001_initial'),
+        ("web", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Character',
+            name="Character",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('photo', models.ImageField(upload_to=web.models.character.photo_upload_to)),
-                ('profile', models.TextField(max_length=100000)),
-                ('background_image', models.ImageField(upload_to=web.models.character.background_image_upload_to)),
-                ('create_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('update_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='web.userprofile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "photo",
+                    models.ImageField(upload_to=web.models.character.photo_upload_to),
+                ),
+                ("profile", models.TextField(max_length=100000)),
+                (
+                    "background_image",
+                    models.ImageField(
+                        upload_to=web.models.character.background_image_upload_to
+                    ),
+                ),
+                (
+                    "create_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "update_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="web.userprofile",
+                    ),
+                ),
             ],
         ),
     ]

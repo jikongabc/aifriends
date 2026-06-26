@@ -31,11 +31,11 @@ def _get_vector_db():
     if _vector_db is None:
         with _lock:
             if _vector_db is None:
-                connection = lancedb.connect('./web/documents/lancedb_storage')
+                connection = lancedb.connect("./web/documents/lancedb_storage")
                 _vector_db = LanceDB(
                     connection=connection,
                     embedding=CustomEmbeddings(),
-                    table_name='my_knowledge_base',
+                    table_name="my_knowledge_base",
                 )
     return _vector_db
 
@@ -44,7 +44,7 @@ def _get_vector_db():
 @tool
 def get_time() -> str:
     """当需要查询精确时间时，调用此函数。返回格式为：[年-月-日 时:分:秒]"""
-    return localtime(now()).strftime('%Y-%m-%d %H:%M:%S')
+    return localtime(now()).strftime("%Y-%m-%d %H:%M:%S")
 
 
 @tool
@@ -54,12 +54,14 @@ def search_knowledge_base(query: str) -> str:
     try:
         docs = _get_vector_db().similarity_search(query, k=3)
     except Exception:
-        logger.exception('search_knowledge_base failed')
+        logger.exception("search_knowledge_base failed")
         docs = []
     if not docs:
-        return '知识库中暂无相关信息，请根据你已有的知识回答。'
-    context = '\n\n'.join([f'内容片段：{i + 1}\n{doc.page_content}' for i, doc in enumerate(docs)])
-    return f'从知识库中找到以下相关信息：\n\n{context}\n'
+        return "知识库中暂无相关信息，请根据你已有的知识回答。"
+    context = "\n\n".join(
+        [f"内容片段：{i + 1}\n{doc.page_content}" for i, doc in enumerate(docs)]
+    )
+    return f"从知识库中找到以下相关信息：\n\n{context}\n"
 
 
 TOOLS = [get_time, search_knowledge_base]
@@ -69,11 +71,11 @@ TOOLS = [get_time, search_knowledge_base]
 def _build_system_prompt(friend) -> SystemMessage:
     from web.models.friend import SystemPrompt
 
-    prompt = ''
-    for sp in SystemPrompt.objects.filter(title='回复').order_by('order_number'):
+    prompt = ""
+    for sp in SystemPrompt.objects.filter(title="回复").order_by("order_number"):
         prompt += sp.prompt
-    prompt += f'\n【角色性格】\n{friend.character.profile}\n'
-    prompt += f'【长期记忆】\n{friend.memory}\n'
+    prompt += f"\n【角色性格】\n{friend.character.profile}\n"
+    prompt += f"【长期记忆】\n{friend.memory}\n"
     return SystemMessage(prompt)
 
 
@@ -85,48 +87,48 @@ class AgentState(TypedDict):
 # 构建并编译 agent→tools→agent 条件循环 graph，绑定工具与 checkpointer。
 def _build_app():
     llm = ChatOpenAI(
-        model='deepseek-v3.2',
-        openai_api_key=os.getenv('API_KEY'),
-        openai_api_base=os.getenv('API_BASE'),
+        model="deepseek-v3.2",
+        openai_api_key=os.getenv("API_KEY"),
+        openai_api_base=os.getenv("API_BASE"),
         streaming=True,
         model_kwargs={
             "stream_options": {
                 "include_usage": True,  # 输出token消耗数量
             }
-        }
+        },
     ).bind_tools(TOOLS)
 
     # agent 节点：注入动态系统提示后调用 LLM。
     def model_call(state: AgentState, config) -> AgentState:
         from web.models.friend import Friend
 
-        friend_id = config['configurable']['friend_id']
-        friend = Friend.objects.select_related('character').get(pk=friend_id)
+        friend_id = config["configurable"]["friend_id"]
+        friend = Friend.objects.select_related("character").get(pk=friend_id)
         system = _build_system_prompt(friend)
-        res = llm.invoke([system] + list(state['messages']))
-        return {'messages': [res]}
+        res = llm.invoke([system] + list(state["messages"]))
+        return {"messages": [res]}
 
     # 条件分支：有 tool_calls 则转 tools 节点，否则结束。
     def should_continue(state: AgentState) -> str:
-        last_message = state['messages'][-1]
+        last_message = state["messages"][-1]
         if last_message.tool_calls:
             return "tools"
         return "end"
 
     graph = StateGraph(AgentState)
-    graph.add_node('agent', model_call)
-    graph.add_node('tools', ToolNode(TOOLS))
+    graph.add_node("agent", model_call)
+    graph.add_node("tools", ToolNode(TOOLS))
 
-    graph.add_edge(START, 'agent')
+    graph.add_edge(START, "agent")
     graph.add_conditional_edges(
-        'agent',
+        "agent",
         should_continue,
         {
-            'tools': 'tools',
-            'end': END,
-        }
+            "tools": "tools",
+            "end": END,
+        },
     )
-    graph.add_edge('tools', 'agent')
+    graph.add_edge("tools", "agent")
 
     # MemorySaver 按 thread_id 进程内管理会话；耐久历史以 Message 表为准，生产可换 PostgresSaver。
     return graph.compile(checkpointer=MemorySaver())

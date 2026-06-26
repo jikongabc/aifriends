@@ -15,82 +15,86 @@ class ASRView(APIView):
 
     # 读取上传音频并运行 ASR，返回识别文本。
     def post(self, request):
-        audio = request.FILES.get('audio')
+        audio = request.FILES.get("audio")
         if not audio:
-            return Response({
-                'result': '音频不存在'
-            })
+            return Response({"result": "音频不存在"})
         pcm_data = audio.read()
         text = asyncio.run(self.run_asr_tasks(pcm_data))
-        return Response({
-            'result': 'success',
-            'text': text,
-        })
-
+        return Response(
+            {
+                "result": "success",
+                "text": text,
+            }
+        )
 
     # 按 3200 字节分片把 PCM 音频推给 ASR websocket，末尾发 finish-task。
     async def asr_sender(self, pcm_data, ws, task_id):
         chunk = 3200
         for i in range(0, len(pcm_data), chunk):
-            await ws.send(pcm_data[i: i + chunk])
+            await ws.send(pcm_data[i : i + chunk])
             await asyncio.sleep(0.01)
-        await ws.send(json.dumps({
-            "header": {
-                "action": "finish-task",
-                "task_id": task_id,
-                "streaming": "duplex"
-            },
-            "payload": {
-                "input": {}
-            }
-        }))
-
+        await ws.send(
+            json.dumps(
+                {
+                    "header": {
+                        "action": "finish-task",
+                        "task_id": task_id,
+                        "streaming": "duplex",
+                    },
+                    "payload": {"input": {}},
+                }
+            )
+        )
 
     # 接收 ASR 结果，累加句末文本直到任务结束。
     async def asr_receiver(self, ws):
-        text = ''
+        text = ""
         async for msg in ws:
             data = json.loads(msg)
-            event = data['header']['event']
-            if event == 'result-generated':
-                output = data['payload']['output']
-                if output.get('transcription', None) and output['transcription']['sentence_end']:
-                    text += output['transcription']['text']
-            elif event in ['task-finished', 'task-failed']:
+            event = data["header"]["event"]
+            if event == "result-generated":
+                output = data["payload"]["output"]
+                if (
+                    output.get("transcription", None)
+                    and output["transcription"]["sentence_end"]
+                ):
+                    text += output["transcription"]["text"]
+            elif event in ["task-finished", "task-failed"]:
                 break
         return text
-
 
     # 建立 ASR websocket，并发跑 sender/receiver 完成一次识别。
     async def run_asr_tasks(self, pcm_data):
         task_id = uuid.uuid4().hex
-        api_key = os.getenv('API_KEY')
-        wss_url = os.getenv('WSS_URL')
-        headers = {
-            "Authorization": f"Bearer {api_key}"
-        }
+        api_key = os.getenv("API_KEY")
+        wss_url = os.getenv("WSS_URL")
+        headers = {"Authorization": f"Bearer {api_key}"}
         async with websockets.connect(wss_url, additional_headers=headers) as ws:
-            await ws.send(json.dumps({
-                "header": {
-                    "streaming": "duplex",
-                    "task_id": task_id,
-                    "action": "run-task"
-                },
-                "payload": {
-                    "model": "gummy-realtime-v1",
-                    "parameters": {
-                        "sample_rate": 16000,
-                        "format": "pcm",
-                        "transcription_enabled": True,
-                    },
-                    "input": {},
-                    "task": "asr",
-                    "task_group": "audio",
-                    "function": "recognition"
-                }
-            }))
+            await ws.send(
+                json.dumps(
+                    {
+                        "header": {
+                            "streaming": "duplex",
+                            "task_id": task_id,
+                            "action": "run-task",
+                        },
+                        "payload": {
+                            "model": "gummy-realtime-v1",
+                            "parameters": {
+                                "sample_rate": 16000,
+                                "format": "pcm",
+                                "transcription_enabled": True,
+                            },
+                            "input": {},
+                            "task": "asr",
+                            "task_group": "audio",
+                            "function": "recognition",
+                        },
+                    }
+                )
+            )
             async for msg in ws:
-                if json.loads(msg)['header']['event'] == 'task-started':
+                if json.loads(msg)["header"]["event"] == "task-started":
                     break
             _, text = await asyncio.gather(
                 self.asr_sender(pcm_data, ws, task_id),

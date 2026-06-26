@@ -13,9 +13,9 @@ class MemoryGraph:
     @staticmethod
     def create_app():
         llm = ChatOpenAI(
-            model='deepseek-v3.2',
-            openai_api_key=os.getenv('API_KEY'),
-            openai_api_base=os.getenv('API_BASE'),
+            model="deepseek-v3.2",
+            openai_api_key=os.getenv("API_KEY"),
+            openai_api_base=os.getenv("API_BASE"),
         )
 
         class AgentState(TypedDict):
@@ -23,13 +23,13 @@ class MemoryGraph:
 
         # agent 节点：调用 LLM 生成蒸馏后的记忆文本。
         def model_call(state: AgentState) -> AgentState:
-            res = llm.invoke(state['messages'])
-            return {'messages': [res]}
+            res = llm.invoke(state["messages"])
+            return {"messages": [res]}
 
         graph = StateGraph(AgentState)
-        graph.add_node('agent', model_call)
+        graph.add_node("agent", model_call)
 
-        graph.add_edge(START, 'agent')
-        graph.add_edge('agent', END)
+        graph.add_edge(START, "agent")
+        graph.add_edge("agent", END)
 
         return graph.compile()

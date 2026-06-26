@@ -6,21 +6,50 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0004_rename_photo2_character_photo'),
+        ("web", "0004_rename_photo2_character_photo"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Friend',
+            name="Friend",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('memory', models.TextField(blank=True, default='', max_length=5000, null=True)),
-                ('create_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('update_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('character', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='web.character')),
-                ('me', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='web.userprofile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "memory",
+                    models.TextField(
+                        blank=True, default="", max_length=5000, null=True
+                    ),
+                ),
+                (
+                    "create_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "update_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "character",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="web.character"
+                    ),
+                ),
+                (
+                    "me",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="web.userprofile",
+                    ),
+                ),
             ],
         ),
     ]
